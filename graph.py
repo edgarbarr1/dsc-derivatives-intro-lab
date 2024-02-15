@@ -29,11 +29,13 @@ def m_b_trace(m, b, x_values, mode = 'line', name = 'line function'):
     values.update({'mode': mode, 'name': name})
     return values
 
-def plot(traces, layout = {}):
+def plot(traces, layout = None):
+    layout = {} if layout is None else layout
     if not isinstance(traces, list): raise TypeError('first argument must be a list.  Instead is', traces)
     plotly.offline.iplot({'data': traces, 'layout': layout})
 
-def build_layout(x_axis = None, y_axis = None, options = {}):
+def build_layout(x_axis = None, y_axis = None, options = None):
+    options = {} if options is None else options
     layout = {}
     if isinstance(x_axis, dict): layout.update({'xaxis': x_axis})
     if isinstance(y_axis, dict): layout.update({'yaxis': y_axis})
@@ -41,7 +43,11 @@ def build_layout(x_axis = None, y_axis = None, options = {}):
     return layout
 
 
-def make_subplots(one_one_traces = [], one_two_traces = [], two_one_traces = [], two_two_traces = []):
+def make_subplots(one_one_traces = None, one_two_traces = None, two_one_traces = None, two_two_traces = None):
+    one_one_traces = [] if one_one_traces is None else one_one_traces
+    one_two_traces = [] if one_two_traces is None else one_two_traces
+    two_one_traces = [] if two_one_traces is None else two_one_traces
+    two_two_traces = [] if two_two_traces is None else two_two_traces
     if two_one_traces or two_two_traces:
         fig = tools.make_subplots(rows=2, cols=2)
     else:
@@ -56,5 +62,6 @@ def make_subplots(one_one_traces = [], one_two_traces = [], two_one_traces = [],
         fig.append_trace(trace, 1, 2)
     return fig
 
-def trace_values(x_values, y_values, mode = 'markers', name="data", text = []):
+def trace_values(x_values, y_values, mode = 'markers', name="data", text = None):
+    text = [] if text is None else text
     return {'x': x_values, 'y': y_values, 'mode': mode, 'name': name, 'text': text}
